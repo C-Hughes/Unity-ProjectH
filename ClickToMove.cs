@@ -34,7 +34,12 @@ public class ClickToMove : MonoBehaviour
                 if (hit.collider.tag == "Player")
                 {
                     controlledUnit = hit.transform.gameObject; // if using custom type, cast the result to type here
-                    childPositionsContainer = controlledUnit.transform.parent.gameObject.transform.GetChild(9).gameObject;
+                    childPositionsContainer = controlledUnit.transform.parent.gameObject.transform.GetChild(controlledUnit.transform.parent.gameObject.transform.childCount - 1).gameObject;
+                    ToggleMoveToObjects(true);
+                }
+                else if (hit.collider.tag == "Enemy")
+                {
+                    controlledUnit = hit.transform.gameObject; // if using custom type, cast the result to type here
                     ToggleMoveToObjects(true);
                 }
                 else if (hit.collider.tag == "MoveTo")
