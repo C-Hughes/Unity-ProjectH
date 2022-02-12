@@ -50,8 +50,11 @@ public class ClickToMove : MonoBehaviour
                         agent = controlledUnit.GetComponent<NavMeshAgent>();
                         agent.destination = hit.transform.position;
                         //Move GridObject to New Locations
-                        childPositionsContainer.transform.position = agent.destination;
-                        MoveGroup();
+                        if(controlledUnit.GetComponent<Collider>().tag == "Player")
+                        {
+                            childPositionsContainer.transform.position = agent.destination;
+                            MoveGroup();
+                        }  
                     }
                     ToggleMoveToObjects(false);
                 }
