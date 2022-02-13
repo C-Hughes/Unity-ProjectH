@@ -24,7 +24,7 @@ public class ClickToMove : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !PauseMenu.GameIsPaused)
         {
             RaycastHit hit;
 
@@ -99,6 +99,17 @@ public class ClickToMove : MonoBehaviour
 
     void ToggleMoveToObjects(bool enable)
     {
+        if (enable)
+        {
+            //Enable SlowMo Overlay
+            Time.timeScale = 0.05f;
+        } 
+        else
+        {
+            //Disable SlowMo Overlay
+            Time.timeScale = 1f;
+        }
+
         foreach (Transform child in groundTiles.transform)
         {
             foreach (Transform grandchild in child)

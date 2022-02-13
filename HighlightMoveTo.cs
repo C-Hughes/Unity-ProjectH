@@ -7,12 +7,18 @@ public class HighlightMoveTo : MonoBehaviour
     private Color startcolor;
     void OnMouseEnter()
     {
-        startcolor = GetComponent<Renderer>().material.color;
-        GetComponent<Renderer>().material.color = new Color32(255, 191, 0, 99);
+        if (!PauseMenu.GameIsPaused)
+        {
+            startcolor = GetComponent<Renderer>().material.color;
+            GetComponent<Renderer>().material.color = new Color32(255, 191, 0, 99);
+        }
     }
     void OnMouseExit()
     {
-        GetComponent<Renderer>().material.color = startcolor;
+        //if (!PauseMenu.GameIsPaused)
+        //{
+            GetComponent<Renderer>().material.color = startcolor;
+        //}
     }
 }
 
