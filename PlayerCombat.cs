@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine;
+using UnityEngine.AI;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -9,19 +11,23 @@ public class PlayerCombat : MonoBehaviour
     public Animator animator;
 
     public Vector3 detectionRange = new Vector3(6, 1, 6);
-    public float attackRange = 0.35f;
+    public float attackRange = 0.7f;
     public int attackDamage = 40;
 
     public float attackRate = 1.5f;
     float nextAttackTime = 0f;
-    bool m_IsEnemyInRange;
+    bool m_EnemyInRange;
+
+    UnityEngine.AI.NavMeshAgent agent;
+    public static Transform detectedEnemy = null;
 
 
     void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<Collider>().tag == "Enemy")
         {
-            m_IsEnemyInRange = true;
+            m_EnemyInRange = true;
+            detectedEnemy = other.transform;
         }
     }
 
@@ -29,40 +35,41 @@ public class PlayerCombat : MonoBehaviour
     {
         if (other.GetComponent<Collider>().tag == "Enemy")
         {
-            m_IsEnemyInRange = false;
+            m_EnemyInRange = false;
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Time.time >= nextAttackTime)
+        //If enemy is in range
+        if (m_EnemyInRange)
         {
-            //Check Distance To Enemy
+            //Debug.Log("Enemy in Detection Range");
+            //Calculate Distance
+            Vector3 offset = transform.position - detectedEnemy.position;
+            float sqrLen = offset.sqrMagnitude;
 
-            //If distance is less than X
-
-            //Attack()
-            nextAttackTime = Time.time + 1f / attackRate;
-        }
-
-        if (m_IsEnemyInRange)
-        {
-            /*
-            Vector3 direction = player.position - transform.position + Vector3.up;
-            Ray ray = new Ray(transform.position, direction);
-            RaycastHit raycastHit;
-
-
-            if (Physics.Raycast(ray, out raycastHit))
+            //If the enemy if Close
+            if (sqrLen < 2 * 2)
             {
-                if (raycastHit.collider.transform == player)
+                //Debug.Log("Enemy in Attack Range");
+                //Attack if not in cooldown
+                if (Time.time >= nextAttackTime)
                 {
-                    gameEnding.CaughtPlayer();
+                    //Debug.Log("Attacking...");
+                    Attack();
+                    nextAttackTime = Time.time + 1f / attackRate;
                 }
             }
-            */
-            Debug.Log("Enemy Detected");
+            else
+            {
+                //Go closer to enemy
+                //Debug.Log("Moving To Enemy Location");
+                agent = transform.GetComponent<UnityEngine.AI.NavMeshAgent>();
+                agent.stoppingDistance = 1f;
+                agent.destination = detectedEnemy.transform.position;
+            }   
         }
     }
 
@@ -73,13 +80,17 @@ public class PlayerCombat : MonoBehaviour
 
         //Detect which enemies were hit
         Collider[] hitEnimies = Physics.OverlapSphere(attackPoint.position, attackRange);
+        Debug.Log("hitEnimies " + hitEnimies.Length);
         foreach (var enemy in hitEnimies)
         {
             //Deduct health
             //hitCollider.SendMessage("AddDamage");
-            enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
+            if (enemy.GetComponent<Collider>().tag == "Enemy")
+            {
+                Debug.Log("hitenemy " + enemy);
+                enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
+            }
         }
-
     }
 
     void OnDrawGizmosSelected()

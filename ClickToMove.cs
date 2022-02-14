@@ -122,61 +122,9 @@ public class ClickToMove : MonoBehaviour
         }
     }
 
-    /*
-    void OnDrawGizmosSelected()
+    public void StopNavigation()
     {
-        Debug.Log("TEST3333");
-        //NavMeshAgent nav = GetComponent<NavMeshAgent>();
-        if (agent == null || agent.path == null)
-        {
-            return;
-        }
-
-        LineRenderer line = this.GetComponent<LineRenderer>();
-        if (line == null)
-        {
-            line = this.gameObject.AddComponent<LineRenderer>();
-            line.material = new Material(Shader.Find("Sprites/Default")) { color = Color.yellow };
-            line.SetWidth(0.5f, 0.5f);
-            line.SetColors(Color.yellow, Color.yellow);
-        }
-
-        line.SetVertexCount(agent.path.corners.Length + 1);
-
-        line.SetPosition(0, controlledUnit.transform.position);
-        for (int i = 0; i < agent.path.corners.Length; i++)
-        {
-            line.SetPosition(i+1, agent.path.corners[i]);
-        }
-
+        Debug.Log("Stopping Navigation");
+        transform.GetComponent<NavMeshAgent>().isStopped = true;
     }
-
-    void CheckDestinationReached()
-    {
-        //float distanceToTarget = Vector3.squareMagnitude(transform.position, target);
-        //if (distanceToTarget < destinationReachedTreshold)
-       // {
-        //    print("Destination reached");
-       // }
-    }
-
-
-    void CreateFormation()
-    {
-        //Get number in Group. Example 9
-        //int numberOfUnits = controlledUnit.transform.parent.gameObject.transform.childCount;
-
-        //for (int i = 0; i < numberOfUnits; i++)
-        //{
-        //    Transform Children = gameobject.transform.GetChild(i);
-        //}
-
-        //Calculate Required Rows
-       // Mathf.Ceil(Mathf.Pow(numberOfUnits, 0.5f));
-
-        //Get 4 Corners of Tile
-
-        //Iterate - For Each Child, set a position
-    }
-    */
 }

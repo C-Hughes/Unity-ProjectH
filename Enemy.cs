@@ -20,12 +20,13 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-
+        //Debug.Log("I'm hit!");
         //Hurt Animation
         //Knockback effect...
 
-        if(currentHealth <= 0)
+        if (currentHealth <= 0)
         {
+            this.GetComponent<ClickToMove>().StopNavigation();
             Die();
         }
     }
@@ -33,10 +34,10 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         //Play Die Animation...
-        Debug.Log("DIE!");
         //animator.SetBool("IsDead", true);
         //Disable The Enemy
         GetComponent<CapsuleCollider>().enabled = false;
+        gameObject.SetActive(false);
         this.enabled = false;
     }
 }
