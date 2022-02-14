@@ -38,6 +38,8 @@ public class Enemy : MonoBehaviour
         //Disable The Enemy
         GetComponent<CapsuleCollider>().enabled = false;
         gameObject.SetActive(false);
+        gameObject.tag = "Dead";
+        transform.position = new Vector3(1000, 1000, 1000);
         this.enabled = false;
     }
 }

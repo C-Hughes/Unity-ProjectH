@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
+using UnityEngine.SceneManagement;
 
 public class ClickToMove : MonoBehaviour
 {
@@ -14,10 +14,12 @@ public class ClickToMove : MonoBehaviour
     public static GameObject unitPositions;
     public static GameObject childPositionsContainer;
     //LOGGING
+    public GameObject slowMoUI;
     //Debug.Log("TEST" + hit.collider.tag);
 
     void Start()
     {
+        slowMoUI = GameObject.Find("/SlowMoCanvas");
         groundTiles = GameObject.Find("/TestScene/GroundTiles");
         ToggleMoveToObjects(false); //Make Highlighted MoveTo Squares Invisible
     }
@@ -99,16 +101,7 @@ public class ClickToMove : MonoBehaviour
 
     void ToggleMoveToObjects(bool enable)
     {
-        if (enable)
-        {
-            //Enable SlowMo Overlay
-            Time.timeScale = 0.05f;
-        } 
-        else
-        {
-            //Disable SlowMo Overlay
-            Time.timeScale = 1f;
-        }
+        SlowMo(enable);
 
         foreach (Transform child in groundTiles.transform)
         {
@@ -120,6 +113,20 @@ public class ClickToMove : MonoBehaviour
                 }
             }
         }
+    }
+
+    void SlowMo(bool enable)
+    {
+        if (enable)
+        {
+            Time.timeScale = 0.05f;
+        }
+        else
+        {
+            //Disable SlowMo Overlay
+            Time.timeScale = 1f;
+        }
+        slowMoUI.transform.Find("SlowMo").gameObject.SetActive(enable);
     }
 
     public void StopNavigation()
