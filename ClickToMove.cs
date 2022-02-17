@@ -54,6 +54,7 @@ public class ClickToMove : MonoBehaviour
                         //Move GridObject to New Locations
                         if(controlledUnit.GetComponent<Collider>().tag == "Player")
                         {
+                            //Move childPositions Object to new position
                             childPositionsContainer.transform.position = agent.destination;
                             MoveGroup();
                         }  
@@ -70,6 +71,7 @@ public class ClickToMove : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             controlledUnit = null;
+            //ReturnToFormation();
         }
     }
 
@@ -94,6 +96,8 @@ public class ClickToMove : MonoBehaviour
                 //Set destination of all children to same as Parent
                 childAgent = child.GetComponent<NavMeshAgent>();
                 childAgent.destination = childPositions[j];
+                //Set new Destination to Childs Script
+                child.GetComponent<Child>().UpdateFormationPosition(childAgent.destination);
                 j++;
             }
         }  
@@ -132,6 +136,11 @@ public class ClickToMove : MonoBehaviour
     public void StopNavigation()
     {
         Debug.Log("Stopping Navigation");
-        transform.GetComponent<NavMeshAgent>().isStopped = true;
+        //transform.GetComponent<NavMeshAgent>().isStopped = true;
+    }
+
+    public void ReturnToFormation()
+    {
+        Debug.Log(gameObject.transform.parent.gameObject.transform.GetChild(gameObject.transform.parent.gameObject.transform.childCount - 1).gameObject);
     }
 }

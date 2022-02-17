@@ -31,11 +31,26 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+    void OnTriggerStay(Collider other)
+    {
+        if (other.GetComponent<Collider>().tag == "Enemy")
+        {
+            m_EnemyInRange = true;
+            detectedEnemy = other.transform;
+        } 
+        else
+        {
+            //returnToPosition();
+        }
+    }
+
     void OnTriggerExit(Collider other)
     {
         if (other.GetComponent<Collider>().tag == "Enemy")
         {
             m_EnemyInRange = false;
+            returnToPosition();
+            Debug.Log("ENEMY EXIT");
         }
     }
 
@@ -62,14 +77,25 @@ public class PlayerCombat : MonoBehaviour
                     nextAttackTime = Time.time + 1f / attackRate;
                 }
             }
-            else
+            else if (sqrLen < 4 * 4)
             {
                 //Go closer to enemy
                 //Debug.Log("Moving To Enemy Location");
                 agent = transform.GetComponent<UnityEngine.AI.NavMeshAgent>();
                 agent.stoppingDistance = 1f;
                 agent.destination = detectedEnemy.transform.position;
-            }   
+                Debug.Log("POSITIONING TO ENMEMY");
+            } 
+            else if (transform.position != transform.GetComponent<Child>().formationPosition)
+            {
+                returnToPosition();
+            }
+        } 
+        else
+        {
+            //If no Enemy is in range, move player back to formationPosition
+            //returnToPosition();
+            //Debug.Log("NO ENEMY");
         }
     }
 
@@ -99,5 +125,15 @@ public class PlayerCombat : MonoBehaviour
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
         //Gizmos.DrawWireCube(detectionPoint.position, detectionRange);
+    }
+
+    void returnToPosition()
+    {
+        Debug.Log("returnToPosition 2222222222");
+        //If no Enemy is in range, move player back to formationPosition
+        agent.stoppingDistance = 0.1f;
+        agent = transform.GetComponent<UnityEngine.AI.NavMeshAgent>();
+        agent.destination = transform.GetComponent<Child>().formationPosition;
+        Debug.Log("returnToPosition = " + agent.destination);
     }
 }

@@ -26,7 +26,7 @@ public class Enemy : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            this.GetComponent<ClickToMove>().StopNavigation();
+            //this.GetComponent<ClickToMove>().StopNavigation();
             Die();
         }
     }
@@ -37,9 +37,9 @@ public class Enemy : MonoBehaviour
         //animator.SetBool("IsDead", true);
         //Disable The Enemy
         GetComponent<CapsuleCollider>().enabled = false;
-        gameObject.SetActive(false);
-        gameObject.tag = "Dead";
         transform.position = new Vector3(1000, 1000, 1000);
+        gameObject.tag = "Dead";
+        gameObject.SetActive(false);
         this.enabled = false;
     }
 }
