@@ -14,10 +14,6 @@ public class WaveManager : MonoBehaviour
 
     //Police Car info
     public GameObject policeCar;
-    Vector3 targetPosition = new Vector3(60, 1, 203);
-    public float smoothTime = 4f;
-    public float speed = 8;
-    Vector3 velocity;
 
     // Start is called before the first frame update
     private void Start()
@@ -37,8 +33,6 @@ public class WaveManager : MonoBehaviour
         }
 
         countdown -= Time.deltaTime;
-
-        policeCar.transform.position = Vector3.SmoothDamp(policeCar.transform.position, targetPosition, ref velocity, smoothTime, speed);
     }
 
     void SpawnWave()
@@ -56,8 +50,8 @@ public class WaveManager : MonoBehaviour
 
     void SpawnCar()
     {
-        Debug.Log("Moving Car "+ targetPosition);
-        policeCar.transform.position = Vector3.SmoothDamp(policeCar.transform.position, targetPosition, ref velocity, smoothTime, speed);
+        //policeCar.transform.position = Vector3.SmoothDamp(policeCar.transform.position, targetPosition, ref velocity, smoothTime, speed);
+        policeCar.GetComponent<PoliceCar>().MoveToPosition();
     }
 
     public void SpawnOne()
