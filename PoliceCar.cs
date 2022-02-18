@@ -10,23 +10,19 @@ public class PoliceCar : MonoBehaviour
     float speed = 10;
     Vector3 velocity;
 
-    
     bool arrived = false;
     bool startMoving = false;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (startMoving)
         {
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime, speed);
+            //Check if car has arrived at destination
+
+            //Once arrived - startMoving = false;
+
+            //Drop off 1-3 officers, then leave the area.....
         }
     }
 
