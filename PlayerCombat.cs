@@ -132,8 +132,9 @@ public class PlayerCombat : MonoBehaviour
         Debug.Log("returnToPosition 2222222222");
         //If no Enemy is in range, move player back to formationPosition
         agent.stoppingDistance = 0.1f;
-        agent = transform.GetComponent<UnityEngine.AI.NavMeshAgent>();
-        agent.destination = transform.GetComponent<Child>().formationPosition;
+        //agent = transform.GetComponent<UnityEngine.AI.NavMeshAgent>();
+        //agent.destination = transform.GetComponent<Child>().formationPosition;
+        transform.GetComponent<Child>().GoToFormationPosition();
         Debug.Log("returnToPosition = " + agent.destination);
     }
 }

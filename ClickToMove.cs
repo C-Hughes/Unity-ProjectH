@@ -72,13 +72,14 @@ public class ClickToMove : MonoBehaviour
         {
             controlledUnit = null;
             //ReturnToFormation();
+            ToggleMoveToObjects(false);
         }
     }
 
 
     void MoveGroup()
     {
-        NavMeshAgent childAgent;
+        //NavMeshAgent childAgent;
         childPositions = new Vector3[childPositionsContainer.transform.childCount];
 
         //Get Array of Child Positions
@@ -94,10 +95,11 @@ public class ClickToMove : MonoBehaviour
             if (child.gameObject.tag == "Child")
             {
                 //Set destination of all children to same as Parent
-                childAgent = child.GetComponent<NavMeshAgent>();
-                childAgent.destination = childPositions[j];
+                //childAgent = child.GetComponent<NavMeshAgent>();
+                //childAgent.destination = childPositions[j];
                 //Set new Destination to Childs Script
-                child.GetComponent<Child>().UpdateFormationPosition(childAgent.destination);
+                child.GetComponent<Child>().UpdateFormationPosition(childPositions[j]);
+                child.GetComponent<Child>().GoToFormationPosition();
                 j++;
             }
         }  
@@ -133,6 +135,8 @@ public class ClickToMove : MonoBehaviour
         slowMoUI.transform.Find("SlowMo").gameObject.SetActive(enable);
     }
 
+
+    /*
     public void StopNavigation()
     {
         Debug.Log("Stopping Navigation");
@@ -142,5 +146,5 @@ public class ClickToMove : MonoBehaviour
     public void ReturnToFormation()
     {
         Debug.Log(gameObject.transform.parent.gameObject.transform.GetChild(gameObject.transform.parent.gameObject.transform.childCount - 1).gameObject);
-    }
+    }*/
 }
