@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class WaveGenerator : MonoBehaviour
 {
@@ -22,6 +23,19 @@ public class WaveGenerator : MonoBehaviour
 
     public void SpawnOne()
     {
-        objectPooler.SpawnFromPool("RookieCop", transform.position, Quaternion.identity);
+        NavMeshHit closestHit;
+
+        if (NavMesh.SamplePosition(transform.position, out closestHit, 500f, NavMesh.AllAreas))
+        {
+            //gameObject.transform.position = closestHit.position;
+            objectPooler.SpawnFromPool("RookieCop", closestHit.position, Quaternion.identity);
+        }
+        else
+        {
+            Debug.LogError("Could not find position on NavMesh!");
+        }
+              
+
+        
     }
 }

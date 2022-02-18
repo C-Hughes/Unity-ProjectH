@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ObjectPooler : MonoBehaviour
 {
@@ -53,8 +54,14 @@ public class ObjectPooler : MonoBehaviour
 
         GameObject objectToSpawn = poolDictionary[tag].Dequeue();
 
+        NavMeshHit closestHit;
+        if (NavMesh.SamplePosition(position, out closestHit, 500f, NavMesh.AllAreas))
+        {
+            objectToSpawn.transform.position = closestHit.position;
+        }
+
         objectToSpawn.SetActive(true);
-        objectToSpawn.transform.position = position;
+        //objectToSpawn.transform.position = position;
         objectToSpawn.transform.rotation = rotation;
 
         poolDictionary[tag].Enqueue(objectToSpawn);
