@@ -15,12 +15,12 @@ public class ClickToMove : MonoBehaviour
     public static GameObject childPositionsContainer;
     //LOGGING
     public GameObject slowMoUI;
-    GameObject waveGenerator;
+    GameObject copSpawner;
     //Debug.Log("TEST" + hit.collider.tag);
 
     void Start()
     {
-        waveGenerator = GameObject.Find("/RookieCopSpawner");
+        copSpawner = GameObject.Find("/RookieCopSpawner");
         slowMoUI = GameObject.Find("/SlowMoCanvas");
         groundTiles = GameObject.Find("/TestScene/GroundTiles");
         ToggleMoveToObjects(false); //Make Highlighted MoveTo Squares Invisible
@@ -75,7 +75,7 @@ public class ClickToMove : MonoBehaviour
             controlledUnit = null;
             //ReturnToFormation();
             ToggleMoveToObjects(false);
-            waveGenerator.GetComponent<WaveGenerator>().SpawnOne();
+            copSpawner.GetComponent<WaveManager>().SpawnOne();
         }
     }
 

@@ -36,9 +36,10 @@ public class Enemy : MonoBehaviour
         //Play Die Animation...
         //animator.SetBool("IsDead", true);
         //Disable The Enemy
-        GetComponent<CapsuleCollider>().enabled = false;
         transform.position = new Vector3(1000, 1000, 1000);
         gameObject.tag = "Dead";
+        new WaitForSeconds(1);
+        GetComponent<CapsuleCollider>().enabled = false;
         gameObject.SetActive(false);
         this.enabled = false;
     }

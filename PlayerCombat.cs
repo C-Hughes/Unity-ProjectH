@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine;
 using UnityEngine.AI;
 
 public class PlayerCombat : MonoBehaviour
@@ -18,9 +17,17 @@ public class PlayerCombat : MonoBehaviour
     float nextAttackTime = 0f;
     bool m_EnemyInRange;
 
-    UnityEngine.AI.NavMeshAgent agent;
+    GameObject parentObject;
+    NavMeshAgent agent;
     public static Transform detectedEnemy = null;
 
+    void Start()
+    {
+        //Get reference to Childs Parent
+        parentObject = transform.parent.gameObject.transform.GetChild(0).gameObject;
+        //Get NavMeshAgent
+        agent = transform.GetComponent<NavMeshAgent>();
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -38,10 +45,6 @@ public class PlayerCombat : MonoBehaviour
             m_EnemyInRange = true;
             detectedEnemy = other.transform;
         } 
-        else
-        {
-            //returnToPosition();
-        }
     }
 
     void OnTriggerExit(Collider other)
@@ -60,13 +63,15 @@ public class PlayerCombat : MonoBehaviour
         //If enemy is in range
         if (m_EnemyInRange)
         {
-            //Debug.Log("Enemy in Detection Range");
-            //Calculate Distance
-            Vector3 offset = transform.position - detectedEnemy.position;
-            float sqrLen = offset.sqrMagnitude;
+            //Calculate Distance to Enemy
+            Vector3 enemyOffset = transform.position - detectedEnemy.position;
+            float enemySqrLen = enemyOffset.sqrMagnitude;
+            //Calculate Distance to Parent
+            Vector3 parentOffset = transform.position - parentObject.transform.position;
+            float parentSqrLen = parentOffset.sqrMagnitude;
 
             //If the enemy if Close
-            if (sqrLen < 2 * 2)
+            if (enemySqrLen < 2 * 2)
             {
                 //Debug.Log("Enemy in Attack Range");
                 //Attack if not in cooldown
@@ -77,11 +82,15 @@ public class PlayerCombat : MonoBehaviour
                     nextAttackTime = Time.time + 1f / attackRate;
                 }
             }
-            else if (sqrLen < 4 * 4)
+            else if (parentSqrLen > 6 * 6)
+            {
+                //Too far, go back to parent
+                returnToPosition();
+                Debug.Log("TOO FAR - RETURN TO POSITION");
+            }
+            else if (enemySqrLen < 4 * 4)
             {
                 //Go closer to enemy
-                //Debug.Log("Moving To Enemy Location");
-                agent = transform.GetComponent<UnityEngine.AI.NavMeshAgent>();
                 agent.stoppingDistance = 1f;
                 agent.destination = detectedEnemy.transform.position;
                 Debug.Log("POSITIONING TO ENMEMY");
@@ -89,14 +98,10 @@ public class PlayerCombat : MonoBehaviour
             else if (transform.position != transform.GetComponent<Child>().formationPosition)
             {
                 returnToPosition();
+                Debug.Log("NO ENEMIES - RETURN TO POSITION");
+                m_EnemyInRange = false;
             }
         } 
-        else
-        {
-            //If no Enemy is in range, move player back to formationPosition
-            //returnToPosition();
-            //Debug.Log("NO ENEMY");
-        }
     }
 
     void Attack()
@@ -129,12 +134,12 @@ public class PlayerCombat : MonoBehaviour
 
     void returnToPosition()
     {
-        Debug.Log("returnToPosition 2222222222");
+        Debug.Log("returnToPosition()!!!!!");
         //If no Enemy is in range, move player back to formationPosition
         agent.stoppingDistance = 0.1f;
         //agent = transform.GetComponent<UnityEngine.AI.NavMeshAgent>();
         //agent.destination = transform.GetComponent<Child>().formationPosition;
         transform.GetComponent<Child>().GoToFormationPosition();
-        Debug.Log("returnToPosition = " + agent.destination);
+        //Debug.Log("returnToPosition = " + agent.destination);
     }
 }

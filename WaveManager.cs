@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class WaveGenerator : MonoBehaviour
+public class WaveManager : MonoBehaviour
 {
 
     ObjectPooler objectPooler;
