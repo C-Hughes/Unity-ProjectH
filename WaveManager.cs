@@ -39,7 +39,6 @@ public class WaveManager : MonoBehaviour
         countdown -= Time.deltaTime;
 
         policeCar.transform.position = Vector3.SmoothDamp(policeCar.transform.position, targetPosition, ref velocity, smoothTime, speed);
-        //policeCar.transform.position = Vector3.MoveTowards(policeCar.transform.position, targetPosition, speed * Time.deltaTime);
     }
 
     void SpawnWave()
@@ -58,7 +57,7 @@ public class WaveManager : MonoBehaviour
     void SpawnCar()
     {
         Debug.Log("Moving Car "+ targetPosition);
-        //policeCar.transform.position = Vector3.SmoothDamp(policeCar.transform.position, targetPosition, ref velocity, smoothTime, speed);
+        policeCar.transform.position = Vector3.SmoothDamp(policeCar.transform.position, targetPosition, ref velocity, smoothTime, speed);
     }
 
     public void SpawnOne()

@@ -12,6 +12,7 @@ public class Child : MonoBehaviour
     void Start()
     {
         formationPosition = gameObject.transform.position;
+        childAgent = gameObject.GetComponent<NavMeshAgent>();
     }
 
 
@@ -24,7 +25,6 @@ public class Child : MonoBehaviour
     public void GoToFormationPosition()
     {
         //Set destination of all children to same as Parent
-        childAgent = gameObject.GetComponent<NavMeshAgent>();
         childAgent.destination = formationPosition;
     }
 }

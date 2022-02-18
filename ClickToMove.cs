@@ -37,13 +37,14 @@ public class ClickToMove : MonoBehaviour
                 //Check if Hit is Player
                 if (hit.collider.CompareTag("Player"))
                 {
-                    controlledUnit = hit.transform.gameObject; // if using custom type, cast the result to type here
+                    controlledUnit = hit.transform.gameObject;
                     childPositionsContainer = controlledUnit.transform.parent.gameObject.transform.GetChild(controlledUnit.transform.parent.gameObject.transform.childCount - 1).gameObject;
                     ToggleMoveToObjects(true);
                 }
+                //For testing purposes
                 else if (hit.collider.CompareTag("Enemy"))
                 {
-                    controlledUnit = hit.transform.gameObject; // if using custom type, cast the result to type here
+                    controlledUnit = hit.transform.gameObject;
                     ToggleMoveToObjects(true);
                 }
                 else if (hit.collider.CompareTag("MoveTo"))
@@ -75,7 +76,7 @@ public class ClickToMove : MonoBehaviour
             controlledUnit = null;
             //ReturnToFormation();
             ToggleMoveToObjects(false);
-            gameMaster.GetComponent<WaveManager>().SpawnOne();
+            //gameMaster.GetComponent<WaveManager>().SpawnOne();
         }
     }
 
