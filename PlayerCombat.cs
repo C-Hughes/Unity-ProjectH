@@ -31,7 +31,7 @@ public class PlayerCombat : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Collider>().tag == "Enemy")
+        if (other.GetComponent<Collider>().CompareTag("Enemy"))
         {
             m_EnemyInRange = true;
             detectedEnemy = other.transform;
@@ -40,7 +40,7 @@ public class PlayerCombat : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        if (other.GetComponent<Collider>().tag == "Enemy")
+        if (other.GetComponent<Collider>().CompareTag("Enemy"))
         {
             m_EnemyInRange = true;
             detectedEnemy = other.transform;
@@ -49,7 +49,7 @@ public class PlayerCombat : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<Collider>().tag == "Enemy")
+        if (other.GetComponent<Collider>().CompareTag("Enemy"))
         {
             m_EnemyInRange = false;
             returnToPosition();
@@ -116,7 +116,7 @@ public class PlayerCombat : MonoBehaviour
         {
             //Deduct health
             //hitCollider.SendMessage("AddDamage");
-            if (enemy.GetComponent<Collider>().tag == "Enemy")
+            if (enemy.GetComponent<Collider>().CompareTag("Enemy"))
             {
                 Debug.Log("hitenemy " + enemy);
                 enemy.GetComponent<Enemy>().TakeDamage(attackDamage);

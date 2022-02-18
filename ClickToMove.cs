@@ -35,18 +35,18 @@ public class ClickToMove : MonoBehaviour
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100))
             {
                 //Check if Hit is Player
-                if (hit.collider.tag == "Player")
+                if (hit.collider.CompareTag("Player"))
                 {
                     controlledUnit = hit.transform.gameObject; // if using custom type, cast the result to type here
                     childPositionsContainer = controlledUnit.transform.parent.gameObject.transform.GetChild(controlledUnit.transform.parent.gameObject.transform.childCount - 1).gameObject;
                     ToggleMoveToObjects(true);
                 }
-                else if (hit.collider.tag == "Enemy")
+                else if (hit.collider.CompareTag("Enemy"))
                 {
                     controlledUnit = hit.transform.gameObject; // if using custom type, cast the result to type here
                     ToggleMoveToObjects(true);
                 }
-                else if (hit.collider.tag == "MoveTo")
+                else if (hit.collider.CompareTag("MoveTo"))
                 {
                     if (controlledUnit != null)
                     {
@@ -54,7 +54,7 @@ public class ClickToMove : MonoBehaviour
                         agent = controlledUnit.GetComponent<NavMeshAgent>();
                         agent.destination = hit.transform.position;
                         //Move GridObject to New Locations
-                        if(controlledUnit.GetComponent<Collider>().tag == "Player")
+                        if(controlledUnit.GetComponent<Collider>().CompareTag("Player"))
                         {
                             //Move childPositions Object to new position
                             childPositionsContainer.transform.position = agent.destination;
@@ -95,7 +95,7 @@ public class ClickToMove : MonoBehaviour
         int j = 0;
         foreach (Transform child in controlledUnit.transform.parent.gameObject.transform)
         {
-            if (child.gameObject.tag == "Child")
+            if (child.gameObject.CompareTag("Child"))
             {
                 //Set destination of all children to same as Parent
                 //childAgent = child.GetComponent<NavMeshAgent>();
@@ -116,7 +116,7 @@ public class ClickToMove : MonoBehaviour
         {
             foreach (Transform grandchild in child)
             {
-                if (grandchild.gameObject.tag == "MoveTo")
+                if (grandchild.gameObject.CompareTag("MoveTo"))
                 {
                     grandchild.gameObject.GetComponent<MeshRenderer>().enabled = enable;
                 }
