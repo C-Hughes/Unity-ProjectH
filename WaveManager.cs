@@ -11,11 +11,14 @@ public class WaveManager : MonoBehaviour
     public float timeBetweenWaves = 10f;
     private float countdown = 3f;
     private int waveNumber = 0;
+    public static int EnemiesAlive = 0;
 
 
     //Police Car info
     public GameObject policeCar;
+    public Wave[] waves;
 
+    //Text
     public TMPro.TMP_Text waveIncomingText;
 
     // Start is called before the first frame update
@@ -28,7 +31,12 @@ public class WaveManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if(countdown <= 0)
+        if(EnemiesAlive > 0)
+        {
+            return;
+        }
+        
+        if(countdown <= 0)
         {
             StartCoroutine(SpawnWave());
             SpawnCar();
@@ -40,21 +48,31 @@ public class WaveManager : MonoBehaviour
 
     IEnumerator SpawnWave()
     {
-        Debug.Log("Wave Incoming!");
-        waveIncomingText.text = "Wave Incoming!";
+        Wave wave = waves[waveNumber];
 
+        waveIncomingText.text = "Wave Incoming!";
         waveNumber++;
 
         yield return new WaitForSeconds(2.0f);
 
-        for (int i = 0; i < waveNumber; i++)
+        for (int i = 0; i < wave.count; i++)
         {
-            objectPooler.SpawnFromPool("RookieCop", transform.position, Quaternion.identity);
-            yield return new WaitForSeconds(1.0f);
+            SpawnEnemy(wave.enemyName);
+            yield return new WaitForSeconds(1f / wave.rate);
         }
         waveIncomingText.text = " ";
 
+        if (waveNumber == waves.Length)
+        {
+            Debug.Log("Level Completed!");
+            this.enabled = false;
+        }
+    }
 
+    void SpawnEnemy(string enemyToSpawn)
+    {
+        objectPooler.SpawnFromPool(enemyToSpawn, transform.position, Quaternion.identity);
+        EnemiesAlive++;
     }
 
     void SpawnCar()
@@ -63,6 +81,7 @@ public class WaveManager : MonoBehaviour
         policeCar.GetComponent<PoliceCar>().MoveToPosition();
     }
 
+    /*
     public void SpawnOne()
     {
         NavMeshHit closestHit;
@@ -75,9 +94,7 @@ public class WaveManager : MonoBehaviour
         else
         {
             Debug.LogError("Could not find position on NavMesh!");
-        }
-              
-
-        
+        }        
     }
+    */
 }

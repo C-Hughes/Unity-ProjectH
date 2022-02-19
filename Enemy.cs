@@ -5,6 +5,8 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public int maxHealth = 100;
+    public int speed = 8;
+    public int xpGain = 10;
     int currentHealth;
 
     void Start()
@@ -38,8 +40,10 @@ public class Enemy : MonoBehaviour
         //Disable The Enemy
         transform.position = new Vector3(1000, 1000, 1000);
         gameObject.tag = "Dead";
-        new WaitForSeconds(1);
         GetComponent<CapsuleCollider>().enabled = false;
+
+        WaveManager.EnemiesAlive--;
+        //Disable
         gameObject.SetActive(false);
         this.enabled = false;
     }
