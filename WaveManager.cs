@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class WaveManager : MonoBehaviour
 {
@@ -9,11 +10,13 @@ public class WaveManager : MonoBehaviour
     ObjectPooler objectPooler;
     public float timeBetweenWaves = 10f;
     private float countdown = 3f;
-    private int waveNumber = 1;
+    private int waveNumber = 0;
 
 
     //Police Car info
     public GameObject policeCar;
+
+    public TMPro.TMP_Text waveIncomingText;
 
     // Start is called before the first frame update
     private void Start()
@@ -27,7 +30,7 @@ public class WaveManager : MonoBehaviour
     {
        if(countdown <= 0)
         {
-            SpawnWave();
+            StartCoroutine(SpawnWave());
             SpawnCar();
             countdown = timeBetweenWaves;
         }
@@ -35,17 +38,23 @@ public class WaveManager : MonoBehaviour
         countdown -= Time.deltaTime;
     }
 
-    void SpawnWave()
+    IEnumerator SpawnWave()
     {
-        Debug.Log("Wave Incomming!");
+        Debug.Log("Wave Incoming!");
+        waveIncomingText.text = "Wave Incoming!";
+
+        waveNumber++;
+
+        yield return new WaitForSeconds(2.0f);
 
         for (int i = 0; i < waveNumber; i++)
         {
             objectPooler.SpawnFromPool("RookieCop", transform.position, Quaternion.identity);
+            yield return new WaitForSeconds(1.0f);
         }
+        waveIncomingText.text = " ";
 
 
-        waveNumber++;
     }
 
     void SpawnCar()
