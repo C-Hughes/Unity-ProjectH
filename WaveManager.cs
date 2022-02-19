@@ -21,11 +21,13 @@ public class WaveManager : MonoBehaviour
     //Text
     public TMPro.TMP_Text waveIncomingText;
 
+
+
+
     // Start is called before the first frame update
     private void Start()
     {
         objectPooler = ObjectPooler.Instance;
-        
     }
 
     // Update is called once per frame

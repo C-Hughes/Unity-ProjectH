@@ -6,7 +6,7 @@ public class PoliceCar : MonoBehaviour
 {
     //Movement Vars
     Vector3 targetPosition = new Vector3(60.0f, 1.2f, 203.0f);
-    float smoothTime = 2f;
+    float smoothTime = 1f;
     float speed = 10;
     Vector3 velocity;
 
