@@ -9,7 +9,7 @@ public class WaveManager : MonoBehaviour
 
     ObjectPooler objectPooler;
     public float timeBetweenWaves = 10f;
-    private float countdown = 3f;
+    private float countdown = 5f;
     private int waveNumber = 0;
     public static int EnemiesAlive = 0;
 
@@ -57,7 +57,7 @@ public class WaveManager : MonoBehaviour
 
         for (int i = 0; i < wave.count; i++)
         {
-            SpawnEnemy(wave.enemyName);
+            //SpawnEnemy(wave.enemyName);
             yield return new WaitForSeconds(1f / wave.rate);
         }
         waveIncomingText.text = " ";
