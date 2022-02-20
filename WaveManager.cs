@@ -9,13 +9,15 @@ public class WaveManager : MonoBehaviour
 
     ObjectPooler objectPooler;
     public float timeBetweenWaves = 10f;
-    private float countdown = 5f;
+    private float countdown = 10f;
     private int waveNumber = 0;
     public static int EnemiesAlive = 0;
 
 
     //Police Car info
     public GameObject policeCar;
+    public GameObject policeCarSpawner;
+    public GameObject policeCarJustSpawned;
     public Wave[] waves;
 
     //Text
@@ -41,10 +43,8 @@ public class WaveManager : MonoBehaviour
         if(countdown <= 0)
         {
             StartCoroutine(SpawnWave());
-            SpawnCar();
             countdown = timeBetweenWaves;
         }
-
         countdown -= Time.deltaTime;
     }
 
@@ -60,9 +60,11 @@ public class WaveManager : MonoBehaviour
         for (int i = 0; i < wave.count; i++)
         {
             //SpawnEnemy(wave.enemyName);
+            SpawnCar(wave.enemyName);
             yield return new WaitForSeconds(1f / wave.rate);
         }
         waveIncomingText.text = " ";
+
 
         if (waveNumber == waves.Length)
         {
@@ -71,16 +73,21 @@ public class WaveManager : MonoBehaviour
         }
     }
 
+    /*
     void SpawnEnemy(string enemyToSpawn)
     {
         objectPooler.SpawnFromPool(enemyToSpawn, transform.position, Quaternion.identity);
         EnemiesAlive++;
     }
+    */
 
-    void SpawnCar()
+    void SpawnCar(string enemyToSpawn)
     {
         //policeCar.transform.position = Vector3.SmoothDamp(policeCar.transform.position, targetPosition, ref velocity, smoothTime, speed);
-        policeCar.GetComponent<PoliceCar>().MoveToPosition();
+        //Spawn Police Car From Pool
+        policeCarJustSpawned = objectPooler.SpawnFromPool(enemyToSpawn, policeCarSpawner.transform.position, Quaternion.identity);
+        policeCarJustSpawned.GetComponent<PoliceCar>().MoveToPosition();
+        //policeCar.GetComponent<PoliceCar>().MoveToPosition();
     }
 
     /*
