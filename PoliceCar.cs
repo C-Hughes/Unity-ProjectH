@@ -9,6 +9,7 @@ public class PoliceCar : MonoBehaviour
     float smoothTime = 1f;
     float speed = 10;
     Vector3 velocity;
+    public GameObject carArrivalPoint;
 
     Vector3[] spawnPositions;
     int numberOfSpawns;
@@ -24,6 +25,8 @@ public class PoliceCar : MonoBehaviour
         spawnPositions = new Vector3[numberOfSpawns];
 
         objectPooler = ObjectPooler.Instance;
+
+        targetPosition = carArrivalPoint.transform.position;
     }
 
     void Update()
@@ -45,6 +48,7 @@ public class PoliceCar : MonoBehaviour
             else
             {
                 transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime, speed);
+                transform.rotation = Quaternion.LookRotation(velocity);
             }
         }
     }
