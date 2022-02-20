@@ -5,11 +5,12 @@ using UnityEngine;
 public class PoliceCar : MonoBehaviour
 {
     //Movement Vars
-    Vector3 targetPosition = new Vector3(60.0f, 1.2f, 203.0f);
+    Vector3 targetPosition;// = new Vector3(60.0f, 1.2f, 203.0f);
     float smoothTime = 1f;
     float speed = 10;
     Vector3 velocity;
     public GameObject carArrivalPoint;
+    public GameObject centreOfMap;
 
     Vector3[] spawnPositions;
     int numberOfSpawns;
@@ -26,23 +27,23 @@ public class PoliceCar : MonoBehaviour
 
         objectPooler = ObjectPooler.Instance;
 
-        targetPosition = carArrivalPoint.transform.position;
+        //targetPosition = carArrivalPoint.transform.position;
     }
 
     void Update()
     {
-        if (startMoving)
+        if (startMoving && !arrived)
         {
             //Calculate Distance to Target
             Vector3 targetOffset = transform.position - targetPosition;
             float targetSqrLen = targetOffset.sqrMagnitude;
 
             //Check if car has arrived at destination
-            if (targetSqrLen < 0.2 * 0.2)
+            if (targetSqrLen < 2 * 2)
             {
                 arrived = true;
                 Debug.Log("You have reached your destination");
-                SpawnEnemies();
+                Arrived();
                 startMoving = false;
             } 
             else
@@ -51,10 +52,39 @@ public class PoliceCar : MonoBehaviour
                 transform.rotation = Quaternion.LookRotation(velocity);
             }
         }
+        //Debug.Log("UPDATE targetPosition " + targetPosition);
     }
+
+    public void Arrived()
+    {
+        arrived = true;
+        Debug.Log("Arrived()");
+        SpawnEnemies();
+    }
+
 
     public void MoveToPosition()
     {
+        //Raycast towards Center of Map to find arrival target
+        RaycastHit hit;
+        // Does the ray intersect any objects excluding the player layer
+        Vector3 fromPosition = transform.position;
+        Vector3 toPosition = centreOfMap.transform.position;
+        Vector3 direction = toPosition - fromPosition;
+
+        if (Physics.Raycast(transform.position, direction, out hit, 100))
+        {
+            Debug.Log("Did Hit"+ hit.transform.position);
+            //Set new targetPosition to hit
+            targetPosition = hit.transform.position;
+
+            Debug.Log("targetPosition " + targetPosition);
+            Debug.Log("carArrivalPoint " + carArrivalPoint.transform.position);
+        }
+        else
+        {
+            Debug.Log("DID NOT HIT");
+        }
         startMoving = true;
     }
 
