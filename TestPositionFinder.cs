@@ -96,13 +96,5 @@ public class TestPositionFinder : MonoBehaviour
         Vector3 direction = toPosition - fromPosition;
 
         Debug.DrawRay(transform.position, direction, Color.green);
-
-
-        // A sphere that fully encloses the bounding box.
-        Vector3 center = rend.bounds.center;
-        float radius = rend.bounds.extents.magnitude;
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(center, radius);
     }
 }

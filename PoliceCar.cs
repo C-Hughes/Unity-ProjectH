@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PoliceCar : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class PoliceCar : MonoBehaviour
     bool startMoving = false;
 
     ObjectPooler objectPooler;
+    NavMeshAgent agent;
 
     void Start()
     {
@@ -32,6 +34,7 @@ public class PoliceCar : MonoBehaviour
 
     void Update()
     {
+        /*
         if (startMoving && !arrived)
         {
             //Calculate Distance to Target
@@ -53,6 +56,7 @@ public class PoliceCar : MonoBehaviour
             }
         }
         //Debug.Log("UPDATE targetPosition " + targetPosition);
+        */
     }
 
     public void Arrived()
@@ -74,18 +78,21 @@ public class PoliceCar : MonoBehaviour
 
         if (Physics.Raycast(transform.position, direction, out hit, 100))
         {
-            Debug.Log("Did Hit"+ hit.transform.position);
-            //Set new targetPosition to hit
-            targetPosition = hit.transform.position;
-
-            Debug.Log("targetPosition " + targetPosition);
-            Debug.Log("carArrivalPoint " + carArrivalPoint.transform.position);
-        }
-        else
-        {
-            Debug.Log("DID NOT HIT");
+            NavMeshHit closestHit;
+            if (NavMesh.SamplePosition(hit.transform.position, out closestHit, 500f, NavMesh.AllAreas))
+            {
+                targetPosition = closestHit.position;
+            } 
+            else
+            {
+                targetPosition = hit.transform.position;
+            }
         }
         startMoving = true;
+
+        //Move Agent to Center of Square
+        agent = transform.GetComponent<NavMeshAgent>();
+        agent.destination = targetPosition;
     }
 
     public void SpawnEnemies()
