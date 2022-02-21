@@ -10,6 +10,9 @@ public class Enemy : MonoBehaviour, IPooledObject
     public int xpGain = 10;
     int currentHealth;
 
+    Vector3 currentVehicleTarget;
+    float currentVehicleTargetDistance = 100f;
+
     //NavMesh Agent
     NavMeshAgent agent;
 
@@ -33,7 +36,23 @@ public class Enemy : MonoBehaviour, IPooledObject
         currentHealth = maxHealth;
 
 
-        //On Spawn, Find closest Player car...
+        //On Spawn, Find closest Player friendly vehicle...
+        FindClosestVehicle();
+        //Go towards closest vehicle...
+        agent = transform.GetComponent<NavMeshAgent>();
+        agent.destination = currentVehicleTarget;
+        Debug.Log("currentVehicleTarget " + currentVehicleTarget);
+
+        //If player is within enemies range, it should attack...
+    }
+
+    void Update()
+    {
+        
+    }
+
+    void FindClosestVehicle()
+    {
         //Get array of this cars current spawn points
         for (int i = 0; i < numberOfFriendlyVehicles; i++)
         {
@@ -43,18 +62,17 @@ public class Enemy : MonoBehaviour, IPooledObject
         //For each SpawnPoint
         foreach (Vector3 friendlyVehiclePosition in friendlyVehiclesSpawnPositions)
         {
-            Debug.Log("friendlyVehiclePosition " + friendlyVehiclePosition);
-            //Calculate distance,
-            Debug.Log("Calculate Distance ");
-            //If distance is closer than CURRENTCLOSEST, CURRENTCLOSEST = friendlyVehiclePosition-
-        }
-        //Go towards car...
-        //If player is within enemies range, it should attack...
-    }
+            //Calculate distance
+            Vector3 targetOffset = transform.position - friendlyVehiclePosition;
+            float targetSqrLen = targetOffset.sqrMagnitude;
 
-    void Update()
-    {
-        
+            //If distance is closer than CURRENTCLOSEST, CURRENTCLOSEST = friendlyVehiclePosition-
+            if (targetSqrLen < currentVehicleTargetDistance)
+            {
+                currentVehicleTarget = friendlyVehiclePosition;
+                currentVehicleTargetDistance = targetSqrLen;
+            }
+        }
     }
 
     public void TakeDamage(int damage)
