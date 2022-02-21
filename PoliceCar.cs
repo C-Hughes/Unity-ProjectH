@@ -7,10 +7,10 @@ public class PoliceCar : MonoBehaviour
 {
     //Movement Vars
     Vector3 targetPosition;// = new Vector3(60.0f, 1.2f, 203.0f);
-    float smoothTime = 1f;
-    float speed = 10;
-    Vector3 velocity;
-    public GameObject carArrivalPoint;
+    //float smoothTime = 1f;
+    //float speed = 10;
+    //Vector3 velocity;
+    //public GameObject carArrivalPoint;
     public GameObject centreOfMap;
 
     Vector3[] spawnPositions;
@@ -24,17 +24,17 @@ public class PoliceCar : MonoBehaviour
 
     void Start()
     {
+        //Each vehicle has a different number of spawn points for enemies
         numberOfSpawns = transform.GetChild(1).childCount;
         spawnPositions = new Vector3[numberOfSpawns];
 
         objectPooler = ObjectPooler.Instance;
 
-        //targetPosition = carArrivalPoint.transform.position;
+
     }
 
     void Update()
     {
-        /*
         if (startMoving && !arrived)
         {
             //Calculate Distance to Target
@@ -49,21 +49,21 @@ public class PoliceCar : MonoBehaviour
                 Arrived();
                 startMoving = false;
             } 
+            /*
             else
             {
                 transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime, speed);
                 transform.rotation = Quaternion.LookRotation(velocity);
             }
+            */
         }
-        //Debug.Log("UPDATE targetPosition " + targetPosition);
-        */
     }
 
     public void Arrived()
     {
         arrived = true;
         Debug.Log("Arrived()");
-        SpawnEnemies();
+        StartCoroutine(SpawnEnemies());
     }
 
 
@@ -95,8 +95,11 @@ public class PoliceCar : MonoBehaviour
         agent.destination = targetPosition;
     }
 
-    public void SpawnEnemies()
+    IEnumerator SpawnEnemies()
     {
+        //Wait for 2 seconds
+        yield return new WaitForSeconds(2f);
+
         //Get array of this cars spawn points
         for (int i = 0; i < numberOfSpawns; i++)
         {

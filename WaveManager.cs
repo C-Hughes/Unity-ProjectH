@@ -44,6 +44,7 @@ public class WaveManager : MonoBehaviour
         {
             StartCoroutine(SpawnWave());
             countdown = timeBetweenWaves;
+
         }
         countdown -= Time.deltaTime;
     }
@@ -88,6 +89,8 @@ public class WaveManager : MonoBehaviour
         policeCarJustSpawned = objectPooler.SpawnFromPool(enemyToSpawn, policeCarSpawner.transform.position, Quaternion.identity);
         policeCarJustSpawned.GetComponent<PoliceCar>().MoveToPosition();
         //policeCar.GetComponent<PoliceCar>().MoveToPosition();
+
+        EnemiesAlive++;
     }
 
     /*
