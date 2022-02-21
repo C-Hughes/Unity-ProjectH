@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour, IPooledObject
     int currentHealth;
 
     Vector3 currentVehicleTarget;
-    float currentVehicleTargetDistance = 100f;
+    float currentVehicleTargetDistance = 10000f;
 
     //NavMesh Agent
     NavMeshAgent agent;
@@ -71,6 +71,8 @@ public class Enemy : MonoBehaviour, IPooledObject
             {
                 currentVehicleTarget = friendlyVehiclePosition;
                 currentVehicleTargetDistance = targetSqrLen;
+                //Debug.Log("currentVehicleTarget " + currentVehicleTarget);
+                //Debug.Log("currentVehicleTargetDistance " + currentVehicleTargetDistance);
             }
         }
     }
