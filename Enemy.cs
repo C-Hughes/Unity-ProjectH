@@ -1,17 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IPooledObject
 {
     public int maxHealth = 100;
     public int speed = 8;
     public int xpGain = 10;
     int currentHealth;
 
-    void Start()
+    //NavMesh Agent
+    NavMeshAgent agent;
+
+    public void OnObjectSpawn()
     {
         currentHealth = maxHealth;
+        Debug.Log("I have just spawned!!!");
+
+        //On Spawn, Find closest Player car...
+        //Go towards car...
+        //If player is within enemies range, it should attack...
     }
 
     void Update()
