@@ -100,19 +100,17 @@ public class PoliceCar : MonoBehaviour
         //Wait for 2 seconds
         yield return new WaitForSeconds(2f);
 
-        //Get array of this cars spawn points
+        //Get array of this cars current spawn points
         for (int i = 0; i < numberOfSpawns; i++)
         {
             spawnPositions[i] = transform.GetChild(1).transform.GetChild(i).position;
         }
 
         //For each SpawnPoint
-        int j = 0;
         foreach (Vector3 spawnPoint in spawnPositions)
         {
             Debug.Log("SpawnPoint "+ spawnPoint);
             objectPooler.SpawnFromPool("RookieCop", spawnPoint, Quaternion.identity);
-            j++;
         }
 
 

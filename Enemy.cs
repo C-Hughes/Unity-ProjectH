@@ -13,12 +13,41 @@ public class Enemy : MonoBehaviour, IPooledObject
     //NavMesh Agent
     NavMeshAgent agent;
 
+    //Friendly Vehicles
+    static GameObject friendlyVehicles;
+    int numberOfFriendlyVehicles;
+    Vector3[] friendlyVehiclesSpawnPositions;
+
+    void Start()
+    {
+        
+    }
+
     public void OnObjectSpawn()
     {
+        //Initialise
+        friendlyVehicles = GameObject.Find("/TestScene/FriendlyVehicles");
+        //Each vehicle has a different number of spawn points for enemies
+        numberOfFriendlyVehicles = friendlyVehicles.transform.childCount;
+        friendlyVehiclesSpawnPositions = new Vector3[numberOfFriendlyVehicles];
         currentHealth = maxHealth;
-        Debug.Log("I have just spawned!!!");
+
 
         //On Spawn, Find closest Player car...
+        //Get array of this cars current spawn points
+        for (int i = 0; i < numberOfFriendlyVehicles; i++)
+        {
+            friendlyVehiclesSpawnPositions[i] = friendlyVehicles.transform.GetChild(i).position;
+        }
+
+        //For each SpawnPoint
+        foreach (Vector3 friendlyVehiclePosition in friendlyVehiclesSpawnPositions)
+        {
+            Debug.Log("friendlyVehiclePosition " + friendlyVehiclePosition);
+            //Calculate distance,
+            Debug.Log("Calculate Distance ");
+            //If distance is closer than CURRENTCLOSEST, CURRENTCLOSEST = friendlyVehiclePosition-
+        }
         //Go towards car...
         //If player is within enemies range, it should attack...
     }
