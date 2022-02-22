@@ -9,7 +9,7 @@ public class PlayerCombat : MonoBehaviour
     //public Transform detectionPoint;
     public Animator animator;
 
-    public Vector3 detectionRange = new Vector3(6, 1, 6);
+    //public Vector3 detectionRange = new Vector3(6, 1, 6);
     public float attackRange = 0.7f;
     public int attackDamage = 40;
 

@@ -11,6 +11,9 @@ public class Child : MonoBehaviour
     public int maxHealth = 100;
     int currentHealth;
 
+    public Transform detectPoint;
+    float detectRange = 5.5f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -59,5 +62,13 @@ public class Child : MonoBehaviour
         //Disable
         gameObject.SetActive(false);
         this.enabled = false;
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        // Display the explosion radius when selected
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(detectPoint.position, detectRange);
+        //Gizmos.DrawWireCube(detectionPoint.position, detectionRange);
     }
 }
