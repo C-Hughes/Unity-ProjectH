@@ -29,7 +29,7 @@ public class EnemyCombat : MonoBehaviour
         //Get NavMeshAgent
         agent = transform.GetComponent<NavMeshAgent>();
 
-        Debug.Log("PLAYER STARTED");
+        //Debug.Log("PLAYER STARTED");
     }
 
     void OnTriggerEnter(Collider other)
@@ -38,6 +38,7 @@ public class EnemyCombat : MonoBehaviour
         {
             m_PlayerInRange = true;
             detectedPlayer = other.transform;
+            //Debug.Log("PLAYER ENTER");
         }
     }
 
@@ -56,7 +57,7 @@ public class EnemyCombat : MonoBehaviour
         {
             m_PlayerInRange = false;
             //Go back to targeting player vehicles
-            Debug.Log("PLAYER EXIT");
+            //Debug.Log("PLAYER EXIT");
         }
     }
 
@@ -66,7 +67,7 @@ public class EnemyCombat : MonoBehaviour
         //If enemy is in range
         if (m_PlayerInRange)
         {
-            Debug.Log("POLAYER");
+            //Debug.Log("POLAYER");
             //Calculate Distance to Player
             Vector3 playerOffset = transform.position - detectedPlayer.position;
             float playerSqrLen = playerOffset.sqrMagnitude;
@@ -80,6 +81,7 @@ public class EnemyCombat : MonoBehaviour
                 {
                     //Debug.Log("Attacking...");
                     Attack();
+                    //Debug.Log("ATTACK PLAYER!!!");
                     nextAttackTime = Time.time + 1f / attackRate;
                 }
             }
@@ -88,12 +90,12 @@ public class EnemyCombat : MonoBehaviour
                 //Go closer to enemy
                 agent.stoppingDistance = 1f;
                 agent.destination = detectedPlayer.transform.position;
-                Debug.Log("POSITIONING TO PLAYER"); 
+                //Debug.Log("POSITIONING TO PLAYER"); 
             }
             else if (transform.position != transform.GetComponent<Child>().formationPosition)
             {
                 //GO BACK TO TARGETING PLAYER VEHICLE
-                Debug.Log("NO PLAYERS - RETURN TO TARGETING PLAYER VEHICLE");
+                //Debug.Log("NO PLAYERS - RETURN TO TARGETING PLAYER VEHICLE");
                 m_PlayerInRange = false;
             }
         }
@@ -101,20 +103,20 @@ public class EnemyCombat : MonoBehaviour
 
     void Attack()
     {
-        Debug.Log("ATTACK");
+        //Debug.Log("ATTACK PLAYER()");
         //Play Attack Animation
         //animator.SetTrigger("Attack");
 
         //Detect which enemies were hit
         Collider[] hitPlayers = Physics.OverlapSphere(attackPoint.position, attackRange);
-        Debug.Log("hitPlayers " + hitPlayers.Length);
+        //Debug.Log("hitPlayers " + hitPlayers.Length);
         foreach (var player in hitPlayers)
         {
             //Deduct health
             //hitCollider.SendMessage("AddDamage");
-            if (player.GetComponent<Collider>().CompareTag("Enemy"))
+            if (player.GetComponent<Collider>().CompareTag("Child"))
             {
-                Debug.Log("hitPlayer " + player);
+                //Debug.Log("hitPlayer " + player);
                 player.GetComponent<Child>().TakeDamage(attackDamage);
             }
         }

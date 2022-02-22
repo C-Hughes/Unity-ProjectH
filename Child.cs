@@ -34,6 +34,7 @@ public class Child : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        Debug.Log("PLAYER HAS TAKEN DAMAGE!!!!");
         currentHealth -= damage;
         //Debug.Log("I'm hit!");
         //Hurt Animation
@@ -55,7 +56,6 @@ public class Child : MonoBehaviour
         gameObject.tag = "Dead";
         GetComponent<CapsuleCollider>().enabled = false;
 
-        WaveManager.EnemiesAlive--;
         //Disable
         gameObject.SetActive(false);
         this.enabled = false;

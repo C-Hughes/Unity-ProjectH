@@ -53,7 +53,7 @@ public class PlayerCombat : MonoBehaviour
         {
             m_EnemyInRange = false;
             returnToPosition();
-            Debug.Log("ENEMY EXIT");
+            //Debug.Log("ENEMY EXIT");
         }
     }
 
@@ -86,19 +86,19 @@ public class PlayerCombat : MonoBehaviour
             {
                 //Too far, go back to parent
                 returnToPosition();
-                Debug.Log("TOO FAR - RETURN TO POSITION");
+                //Debug.Log("TOO FAR - RETURN TO POSITION");
             }
             else if (enemySqrLen < 4 * 4)
             {
                 //Go closer to enemy
                 agent.stoppingDistance = 1f;
                 agent.destination = detectedEnemy.transform.position;
-                Debug.Log("POSITIONING TO ENMEMY");
+                //Debug.Log("POSITIONING TO ENMEMY");
             } 
             else if (transform.position != transform.GetComponent<Child>().formationPosition)
             {
                 returnToPosition();
-                Debug.Log("NO ENEMIES - RETURN TO POSITION");
+                //Debug.Log("NO ENEMIES - RETURN TO POSITION");
                 m_EnemyInRange = false;
             }
         } 
@@ -111,14 +111,14 @@ public class PlayerCombat : MonoBehaviour
 
         //Detect which enemies were hit
         Collider[] hitEnimies = Physics.OverlapSphere(attackPoint.position, attackRange);
-        Debug.Log("hitEnimies " + hitEnimies.Length);
+        //Debug.Log("hitEnimies " + hitEnimies.Length);
         foreach (var enemy in hitEnimies)
         {
             //Deduct health
             //hitCollider.SendMessage("AddDamage");
             if (enemy.GetComponent<Collider>().CompareTag("Enemy"))
             {
-                Debug.Log("hitenemy " + enemy);
+                //Debug.Log("hitenemy " + enemy);
                 enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
             }
         }
@@ -134,7 +134,7 @@ public class PlayerCombat : MonoBehaviour
 
     void returnToPosition()
     {
-        Debug.Log("returnToPosition()!!!!!");
+        //Debug.Log("returnToPosition()!!!!!");
         //If no Enemy is in range, move player back to formationPosition
         agent.stoppingDistance = 0.1f;
         //agent = transform.GetComponent<UnityEngine.AI.NavMeshAgent>();
