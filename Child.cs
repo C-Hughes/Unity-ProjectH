@@ -6,22 +6,35 @@ using UnityEngine.AI;
 public class Child : MonoBehaviour
 {
     NavMeshAgent childAgent;
+    public Animator animator;
     public Vector3 formationPosition;
 
     public int maxHealth = 100;
     int currentHealth;
+    bool walking = false;
 
-    public Transform detectPoint;
-    float detectRange = 5.5f;
 
     // Start is called before the first frame update
     void Start()
     {
         formationPosition = gameObject.transform.position;
         childAgent = gameObject.GetComponent<NavMeshAgent>();
+        //animator = gameObject.GetComponent<Animator>();
         currentHealth = maxHealth;
     }
 
+    void Update()
+    {
+        if (childAgent.remainingDistance <= childAgent.stoppingDistance)
+        {
+            walking = false;
+        }
+        else
+        {
+            walking = true;
+        }
+        animator.SetBool("IsMoving", walking);
+    }
 
     public void UpdateFormationPosition(Vector3 newPosition)
     {
@@ -31,6 +44,7 @@ public class Child : MonoBehaviour
 
     public void GoToFormationPosition()
     {
+        animator.SetBool("IsMoving", true);
         //Set destination of all children to same as Parent
         childAgent.destination = formationPosition;
     }
@@ -53,7 +67,7 @@ public class Child : MonoBehaviour
     void Die()
     {
         //Play Die Animation...
-        //animator.SetBool("IsDead", true);
+        animator.SetBool("IsDead", true);
         //Disable The Enemy
         transform.position = new Vector3(1000, 1000, 1000);
         gameObject.tag = "Dead";
@@ -68,7 +82,5 @@ public class Child : MonoBehaviour
     {
         // Display the explosion radius when selected
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(detectPoint.position, detectRange);
-        //Gizmos.DrawWireCube(detectionPoint.position, detectionRange);
     }
 }

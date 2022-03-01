@@ -34,6 +34,7 @@ public class ClickToMove : MonoBehaviour
 
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100))
             {
+
                 //Check if Hit is Player
                 if (hit.collider.CompareTag("Player"))
                 {

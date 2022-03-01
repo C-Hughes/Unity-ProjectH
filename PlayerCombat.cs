@@ -107,7 +107,7 @@ public class PlayerCombat : MonoBehaviour
     void Attack()
     {
         //Play Attack Animation
-        //animator.SetTrigger("Attack");
+        animator.SetTrigger("Attack");
 
         //Detect which enemies were hit
         Collider[] hitEnimies = Physics.OverlapSphere(attackPoint.position, attackRange);
