@@ -25,7 +25,7 @@ public class PoliceCar : MonoBehaviour
     void Start()
     {
         //Each vehicle has a different number of spawn points for enemies
-        numberOfSpawns = transform.GetChild(1).childCount;
+        numberOfSpawns = transform.GetChild(0).childCount;
         spawnPositions = new Vector3[numberOfSpawns];
 
         objectPooler = ObjectPooler.Instance;
@@ -34,7 +34,7 @@ public class PoliceCar : MonoBehaviour
     public void OnObjectSpawn()
     {
         //Each vehicle has a different number of spawn points for enemies
-        numberOfSpawns = transform.GetChild(1).childCount;
+        numberOfSpawns = transform.GetChild(0).childCount;
         spawnPositions = new Vector3[numberOfSpawns];
 
         objectPooler = ObjectPooler.Instance;
@@ -110,7 +110,7 @@ public class PoliceCar : MonoBehaviour
         //Get array of this cars current spawn points
         for (int i = 0; i < numberOfSpawns; i++)
         {
-            spawnPositions[i] = transform.GetChild(1).transform.GetChild(i).position;
+            spawnPositions[i] = transform.GetChild(0).transform.GetChild(i).position;
         }
 
         //For each SpawnPoint

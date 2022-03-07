@@ -22,8 +22,10 @@ public class CameraController : MonoBehaviour
 
 	void Start()
     {
+		//Init
 		initPosition = cameraObject.transform.position;
 
+		//Set zoom to min distance
 		zoomLevel = Mathf.Clamp(minZoom, maxZoom, minZoom);
 		zoomPosition = Mathf.MoveTowards(zoomPosition, zoomLevel, zoomSpeed * Time.deltaTime);
 		transform.position = cameraObject.transform.position - (transform.forward * zoomPosition);
