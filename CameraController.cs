@@ -13,7 +13,7 @@ public class CameraController : MonoBehaviour
 	private float zoomLevel;
 	private float sensitivity = 1;
 	private float maxZoom = 20;
-	private float minZoom = 35;
+	private float minZoom = 45;
 	float zoomPosition;
 	//private Vector3 moveDirection = Vector3.zero;
 	private Vector3 initPosition;

@@ -29,8 +29,15 @@ public class PoliceCar : MonoBehaviour
         spawnPositions = new Vector3[numberOfSpawns];
 
         objectPooler = ObjectPooler.Instance;
+    }
 
+    public void OnObjectSpawn()
+    {
+        //Each vehicle has a different number of spawn points for enemies
+        numberOfSpawns = transform.GetChild(1).childCount;
+        spawnPositions = new Vector3[numberOfSpawns];
 
+        objectPooler = ObjectPooler.Instance;
     }
 
     void Update()

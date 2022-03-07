@@ -86,6 +86,7 @@ public class WaveManager : MonoBehaviour
     {
         //policeCar.transform.position = Vector3.SmoothDamp(policeCar.transform.position, targetPosition, ref velocity, smoothTime, speed);
         //Spawn Police Car From Pool
+        //Debug.Log("Spawning Police Car - SpawnCar()");
         policeCarJustSpawned = objectPooler.SpawnFromPool(enemyToSpawn, policeCarSpawner.transform.position, Quaternion.identity);
         policeCarJustSpawned.GetComponent<PoliceCar>().MoveToPosition();
         //policeCar.GetComponent<PoliceCar>().MoveToPosition();
