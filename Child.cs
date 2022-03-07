@@ -42,15 +42,27 @@ public class Child : MonoBehaviour
         //Debug.Log("New POS = "+ formationPosition);
     }
 
+    //Turn into Coroutine
     public void GoToFormationPosition()
     {
-        animator.SetBool("IsMoving", true);
+        StartCoroutine(StartMoving());
+    }
+
+    IEnumerator StartMoving()
+    {
+        //Set IS Moving to True, Update Run & Idle number to random
         animator.SetInteger("RunNumber", Random.Range(0, 4));
+        animator.SetInteger("IdleNumber", Random.Range(2, 5));
+        animator.SetBool("IsMoving", true);
+
+        //WaitRandomTime
+        yield return new WaitForSeconds(Random.Range(0f, 0.5f));
+
         //Set destination of all children to same as Parent
         childAgent.destination = formationPosition;
     }
 
-    public void TakeDamage(int damage)
+        public void TakeDamage(int damage)
     {
         Debug.Log("PLAYER HAS TAKEN DAMAGE!!!!");
         currentHealth -= damage;
