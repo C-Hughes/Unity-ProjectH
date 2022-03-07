@@ -45,6 +45,7 @@ public class Child : MonoBehaviour
     public void GoToFormationPosition()
     {
         animator.SetBool("IsMoving", true);
+        animator.SetInteger("RunNumber", Random.Range(0, 4));
         //Set destination of all children to same as Parent
         childAgent.destination = formationPosition;
     }
