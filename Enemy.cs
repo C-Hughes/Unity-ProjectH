@@ -25,7 +25,8 @@ public class Enemy : MonoBehaviour, IPooledObject
 
     void Start()
     {
-        
+        agent = transform.GetComponent<NavMeshAgent>();
+        agent.stoppingDistance = 2.5f;
     }
 
     public void OnObjectSpawn()
@@ -36,6 +37,8 @@ public class Enemy : MonoBehaviour, IPooledObject
         numberOfFriendlyVehicles = friendlyVehicles.transform.childCount;
         friendlyVehiclesSpawnPositions = new Vector3[numberOfFriendlyVehicles];
         currentHealth = maxHealth;
+
+        //Nav Agent Init
         agent = transform.GetComponent<NavMeshAgent>();
         agent.stoppingDistance = 2.5f;
 
@@ -43,10 +46,6 @@ public class Enemy : MonoBehaviour, IPooledObject
         FindClosestVehicle();
         //Go towards closest vehicle...
         MoveTo(currentVehicleTarget);
-
-
-
-        //If player is within enemies range, it should attack...
     }
 
     void Update()
@@ -60,6 +59,8 @@ public class Enemy : MonoBehaviour, IPooledObject
             walking = true;
         }
         animator.SetBool("IsMoving", walking);
+
+        //If player is within enemies range, it should attack...
     }
 
     void FindClosestVehicle()

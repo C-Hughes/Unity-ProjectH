@@ -35,6 +35,7 @@ public class PlayerCombat : MonoBehaviour
         {
             m_EnemyInRange = true;
             detectedEnemy = other.transform;
+            //Debug.Log("ENEMY ENTER");
         }
     }
 
