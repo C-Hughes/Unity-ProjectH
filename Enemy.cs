@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour, IPooledObject
     public int speed = 8;
     public int xpGain = 10;
     int currentHealth;
+    public Animator animator;
+    bool walking = false;
 
     Vector3 currentVehicleTarget;
     float currentVehicleTargetDistance = 10000f;
@@ -34,21 +36,30 @@ public class Enemy : MonoBehaviour, IPooledObject
         numberOfFriendlyVehicles = friendlyVehicles.transform.childCount;
         friendlyVehiclesSpawnPositions = new Vector3[numberOfFriendlyVehicles];
         currentHealth = maxHealth;
-
+        agent = transform.GetComponent<NavMeshAgent>();
+        agent.stoppingDistance = 2.5f;
 
         //On Spawn, Find closest Player friendly vehicle...
         FindClosestVehicle();
         //Go towards closest vehicle...
-        agent = transform.GetComponent<NavMeshAgent>();
-        agent.destination = currentVehicleTarget;
-        Debug.Log("currentVehicleTarget " + currentVehicleTarget);
+        MoveTo(currentVehicleTarget);
+
+
 
         //If player is within enemies range, it should attack...
     }
 
     void Update()
     {
-        
+        if (agent.remainingDistance <= agent.stoppingDistance)
+        {
+            walking = false;
+        }
+        else
+        {
+            walking = true;
+        }
+        animator.SetBool("IsMoving", walking);
     }
 
     void FindClosestVehicle()
@@ -77,6 +88,15 @@ public class Enemy : MonoBehaviour, IPooledObject
         }
     }
 
+    void MoveTo(Vector3 position)
+    {
+        agent.destination = position;
+        animator.SetInteger("RunNumber", Random.Range(0, 4));
+        animator.SetInteger("IdleNumber", Random.Range(2, 5));
+        animator.SetBool("IsMoving", true);
+        Debug.Log("currentVehicleTarget " + position);
+    }
+
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
@@ -94,7 +114,7 @@ public class Enemy : MonoBehaviour, IPooledObject
     void Die()
     {
         //Play Die Animation...
-        //animator.SetBool("IsDead", true);
+        animator.SetBool("IsDead", true);
         //Disable The Enemy
         transform.position = new Vector3(1000, 1000, 1000);
         gameObject.tag = "Dead";
