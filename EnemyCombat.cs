@@ -9,7 +9,7 @@ public class EnemyCombat : MonoBehaviour
     //public Transform detectionPoint;
     //public Animator animator;
 
-    public Vector3 detectionRange = new Vector3(6, 1, 6);
+    //public Vector3 detectionRange = new Vector3(6, 1, 6);
     public float attackRange = 0.7f;
     public int attackDamage = 40;
 
@@ -29,7 +29,7 @@ public class EnemyCombat : MonoBehaviour
         //Get NavMeshAgent
         agent = transform.GetComponent<NavMeshAgent>();
 
-        //Debug.Log("PLAYER STARTED");
+        //Debug.Log("ENEMY STARTED");
     }
 
     void OnTriggerEnter(Collider other)
@@ -38,8 +38,9 @@ public class EnemyCombat : MonoBehaviour
         {
             m_PlayerInRange = true;
             detectedPlayer = other.transform;
-            //Debug.Log("PLAYER ENTER");
+            Debug.Log("PLAYER ENTER");
         }
+        //Debug.Log("ENTER "+ other.tag);
     }
 
     void OnTriggerStay(Collider other)
@@ -92,7 +93,7 @@ public class EnemyCombat : MonoBehaviour
                 agent.destination = detectedPlayer.transform.position;
                 //Debug.Log("POSITIONING TO PLAYER"); 
             }
-            else if (transform.position != transform.GetComponent<Child>().formationPosition)
+            else
             {
                 //GO BACK TO TARGETING PLAYER VEHICLE
                 //Debug.Log("NO PLAYERS - RETURN TO TARGETING PLAYER VEHICLE");

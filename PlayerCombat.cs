@@ -33,7 +33,7 @@ public class PlayerCombat : MonoBehaviour
     {
         if (other.GetComponent<Collider>().CompareTag("Enemy"))
         {
-            m_EnemyInRange = true;
+            //m_EnemyInRange = true;
             detectedEnemy = other.transform;
             //Debug.Log("ENEMY ENTER");
         }
@@ -43,7 +43,7 @@ public class PlayerCombat : MonoBehaviour
     {
         if (other.GetComponent<Collider>().CompareTag("Enemy"))
         {
-            m_EnemyInRange = true;
+            //m_EnemyInRange = true;
             detectedEnemy = other.transform;
         } 
     }
